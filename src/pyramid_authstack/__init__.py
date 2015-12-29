@@ -5,12 +5,17 @@ from pyramid.authentication import Everyone
 from pyramid.authentication import IAuthenticationPolicy
 from pyramid.authentication import CallbackAuthenticationPolicy
 
+try:
+    from collections import OrderedDict
+except ImportError:    
+    from ordereddict import OrderedDict
+
 
 @implementer(IAuthenticationPolicy)
 class AuthenticationStackPolicy(CallbackAuthenticationPolicy):
     def __init__(self, callback=None):
         self.callback = callback
-        self.policies = collections.OrderedDict()
+        self.policies = OrderedDict()
 
     def add_policy(self, name, policy):
         self.policies[name] = policy
